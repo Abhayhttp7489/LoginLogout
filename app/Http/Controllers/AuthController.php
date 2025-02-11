@@ -11,9 +11,9 @@ class AuthController extends Controller
     // Show login form
     public function login()
     {
-        // Redirect to home if user is already authenticated
+        // Redirect to dashboard if user is already authenticated
         if (Auth::check()) {
-            return redirect()->route('home');
+            return redirect()->route('dashboard');
         }
 
         return view('auth.login');
@@ -31,7 +31,7 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            return redirect()->intended(route('home'));
+            return redirect()->intended(route('dashboard'));
         }
 
         return back()->withErrors(['email' => 'Invalid credentials.']);
@@ -40,9 +40,9 @@ class AuthController extends Controller
     // Show register form
     public function register()
     {
-        // Redirect to home if user is already authenticated
+        // Redirect to dashboard if user is already authenticated
         if (Auth::check()) {
-            return redirect()->route('home');
+            return redirect()->route('dashboard');
         }
 
         return view('auth.register');
@@ -80,5 +80,29 @@ class AuthController extends Controller
     {
         Auth::logout();
         return redirect()->route('login'); // Redirect to the login page after logout
+    }
+
+    // Handle profile update
+    public function updateProfile(Request $request)
+    {
+        // Validate input
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . Auth::id(),
+        ]);
+
+        // Update user profile
+        $user = Auth::user();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->save();
+
+        return redirect()->route('dashboard')->with('success', 'Profile updated successfully.');
+    }
+
+    // Show edit profile form
+    public function editProfile()
+    {
+        return view('edit-profile'); // Ensure this view file exists in the views folder
     }
 }
