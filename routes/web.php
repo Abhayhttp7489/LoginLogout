@@ -20,7 +20,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/edit-profile', [AuthController::class, 'editProfile'])->name('edit.profile');
 
     // Route for updating profile
-    Route::post('/update-profile', [AuthController::class, 'updateProfile'])->name('update.profile');
+    Route::put('/update-profile', [AuthController::class, 'updateProfile'])->name('update.profile');
 });
 
 // Public routes for guest users

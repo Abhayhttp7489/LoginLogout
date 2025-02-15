@@ -103,6 +103,6 @@ class AuthController extends Controller
     // Show edit profile form
     public function editProfile()
     {
-        return view('edit-profile'); // Ensure this view file exists in the views folder
+        return view('auth.edit-profile'); // Ensure this view file exists in the auth folder
     }
 }

@@ -20,7 +20,7 @@
         @endif
 
         <!-- Profile Update Form -->
-        <form action="{{ route('profile.update') }}" method="POST">
+        <form action="{{ route('update.profile') }}" method="POST">
             @csrf
             @method('PUT')
 
